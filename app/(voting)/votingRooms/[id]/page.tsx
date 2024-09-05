@@ -1,6 +1,15 @@
-import React from "react"
+import { ServerSession } from "@/lib/session"
+import { redirect } from "next/navigation"
 
-const VotingRoomPage = ({ params: { id } }: { params: { id: string } }) => {
+const VotingRoomPage = async ({
+  params: { id },
+}: {
+  params: { id: string }
+}) => {
+  const session = await ServerSession()
+  if (!session) {
+    redirect("/signin")
+  }
   return <div>VotingRoomPage</div>
 }
 
