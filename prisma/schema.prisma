@@ -54,32 +54,37 @@ model VerificationToken {
 }
 
 model User {
-  id            String       @id @default(auto()) @map("_id") @db.ObjectId
-  name          String?
-  email         String?      @unique
-  emailVerified DateTime?
-  image         String?
-  description   String?
-  password      String?
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
-  accounts      Account[]
-  sessions      Session[]
-  votingRooms   VotingRoom[]
-  votes         Vote[]
+  id                 String       @id @default(auto()) @map("_id") @db.ObjectId
+  name               String?
+  email              String?      @unique
+  emailVerified      DateTime?
+  image              String?
+  description        String?
+  password           String?
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
+  accounts           Account[]
+  sessions           Session[]
+  votingRoomsCreated VotingRoom[]
+  votes              Vote[]       @relation(fields: [votesIds], references: [id])
+  votesIds           String[]     @map("votes_ids") @db.ObjectId
+  votingRoomsIds     String[]     @map("voting_rooms_ids") @db.ObjectId
+  votingRooms        VotingRoom[] @relation("VotingRooms", fields: [votingRoomsIds], references: [id])
 
   @@map("users")
 }
 
 model VotingRoom {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  name        String
-  description String
-  votes       Vote[]
-  deadline    DateTime
-
-  creatorId String @map("creator_id") @db.ObjectId
-  creator   User   @relation(fields: [creatorId], references: [id])
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  name           String
+  description    String
+  votes          Vote[]
+  deadline       DateTime
+  votingRoomCode String   @unique
+  creatorId      String   @map("creator_id") @db.ObjectId
+  creator        User     @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+  votersIds      String[] @map("voters_ids") @db.ObjectId
+  voters         User[]   @relation("VotingRooms", fields: [votersIds], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -88,16 +93,15 @@ model VotingRoom {
 }
 
 model Vote {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  votingRoomId String   @map("voting_room_id") @db.ObjectId
-  userId       String   @map("user_id") @db.ObjectId
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
   vote         String
   url          String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-
-  votingRoom VotingRoom @relation(fields: [votingRoomId], references: [id])
-  user       User       @relation(fields: [userId], references: [id])
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  votingRoomId String     @map("voting_room_id") @db.ObjectId
+  votingRoom   VotingRoom @relation(fields: [votingRoomId], references: [id], onDelete: Cascade)
+  usersIds     String[]   @map("users_ids") @db.ObjectId
+  users        User[]     @relation(fields: [usersIds], references: [id])
 
   @@map("votes")
 }
