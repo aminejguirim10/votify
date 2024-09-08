@@ -79,6 +79,7 @@ const AuthSignUpForm = () => {
                     {...field}
                     type="text"
                     disabled={loading}
+                    className="placeholder:text-gray-500"
                   />
                 </FormControl>
                 {form.formState.errors.username && (
@@ -99,6 +100,7 @@ const AuthSignUpForm = () => {
                     {...field}
                     type="email"
                     disabled={loading}
+                    className="placeholder:text-gray-500"
                   />
                 </FormControl>
                 {form.formState.errors.email && (
@@ -120,6 +122,7 @@ const AuthSignUpForm = () => {
                       {...field}
                       type={showPassword ? "text" : "password"}
                       disabled={loading}
+                      className="placeholder:text-gray-500"
                     />
                     {showPassword ? (
                       <Icons.eyeSlash

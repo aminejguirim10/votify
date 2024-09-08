@@ -6,7 +6,7 @@ import {
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { getFallback } from "@/lib/utils"
-import VotingProfileOptionsButtons from "./voting-profile-options-buttons"
+import VotingProfileOptionsButtons from "@/components/layout/voting-profile-options-buttons"
 
 const VotingProfileOptions = ({
   name,

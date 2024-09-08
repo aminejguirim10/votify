@@ -8,6 +8,7 @@ import { emailToName } from "@/lib/utils"
 import VotingProfileOptions from "@/components/layout/voting-profile-options"
 import { Icons } from "@/components/shared/icons"
 import VotingRoomsOptions from "@/components/layout/voting-rooms-options"
+import { getVotingRooms } from "@/actions/voting-room.actions"
 
 export default async function VotingLayout({
   children,
@@ -15,6 +16,7 @@ export default async function VotingLayout({
   children: React.ReactNode
 }>) {
   const session = await ServerSession()
+  const votingRooms = (await getVotingRooms(session?.user.id!)) as any[]
 
   return (
     <main className="flex h-screen">
@@ -46,29 +48,21 @@ export default async function VotingLayout({
               <Icons.votingRoom className="size-5" />
               Voting Rooms
             </Link>
-            <Link
-              href={"/"}
-              className="rounded-lg px-3 py-2 text-muted-foreground transition-all hover:bg-muted hover:text-primary"
-            >
-              Voting Room 1
-            </Link>
-            <Link
-              href={"/"}
-              className="rounded-lg px-3 py-2 text-muted-foreground transition-all hover:bg-muted hover:text-primary"
-            >
-              Voting Room 2
-            </Link>
-            <Link
-              href={"/"}
-              className="rounded-lg px-3 py-2 text-muted-foreground transition-all hover:bg-muted hover:text-primary"
-            >
-              Voting Room 3
-            </Link>
+            {/*TODO: Fix the scrollable list of voting rooms */}
+            {votingRooms.map((votingRoom) => (
+              <Link
+                key={votingRoom.id}
+                href={`/votingRooms/${votingRoom.id}`}
+                className="truncate rounded-lg px-3 py-2 text-muted-foreground transition-all hover:bg-muted hover:text-primary"
+              >
+                {votingRoom.name}
+              </Link>
+            ))}
           </div>
           <div className="flex flex-col gap-2 px-4">
             <div className="flex flex-col gap-2">
               <Separator className="my-2 bg-black/20" />
-              <VotingRoomsOptions />
+              <VotingRoomsOptions user={session?.user as any} />
             </div>
             <Separator className="my-2 bg-black/20" />
             <VotingProfileOptions

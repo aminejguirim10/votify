@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
+import crypto from "crypto"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -38,4 +39,12 @@ export function getFallback(username: string | null | undefined) {
     firstLetterFirstWord.toUpperCase() + firstLetterSecondWord.toUpperCase()
 
   return fallback
+}
+
+export function generateUniqueCode(length = 6) {
+  return crypto
+    .randomBytes(length)
+    .toString("base64") // Convert bytes to base64 string
+    .replace(/[^a-zA-Z0-9]/g, "") // Remove non-alphanumeric characters
+    .slice(0, length) // Get the desired length
 }

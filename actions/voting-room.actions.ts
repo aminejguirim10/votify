@@ -9,10 +9,13 @@ export async function getVotingRooms(userId: string) {
   try {
     const session = await ServerSession()
     if (!session) return { status: 403, message: "Unauthorized" }
+
     const votingRooms = await prisma.votingRoom.findMany({
       where: {
-        creatorId: userId,
         OR: [
+          {
+            creatorId: userId,
+          },
           {
             voters: {
               some: {

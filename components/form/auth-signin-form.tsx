@@ -70,6 +70,7 @@ const AuthSignInForm = () => {
                     {...field}
                     type="email"
                     disabled={loading}
+                    className="placeholder:text-gray-500"
                   />
                 </FormControl>
                 {form.formState.errors.email && (
@@ -91,6 +92,7 @@ const AuthSignInForm = () => {
                       {...field}
                       type={showPassword ? "text" : "password"}
                       disabled={loading}
+                      className="placeholder:text-gray-500"
                     />
                     {showPassword ? (
                       <Icons.eyeSlash
