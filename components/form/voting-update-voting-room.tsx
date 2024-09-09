@@ -18,54 +18,55 @@ import { useState } from "react"
 import { format } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
 
-import { cn, generateUniqueCode } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 import { Calendar } from "@/components/ui/calendar"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { votingCreateVotingRoomSchema } from "@/lib/schema"
-import { User } from "@prisma/client"
-import { createVotingRoom } from "@/actions/voting-room.actions"
+import { votingUpdateVotingRoomSchema } from "@/lib/schema"
+import { User, VotingRoom } from "@prisma/client"
+import { updateVotingRoom } from "@/actions/voting-room.actions"
 import { toast } from "@/hooks/use-toast"
 import { Textarea } from "@/components/ui/textarea"
 
-const VotingCreateVotingRoomForm = ({
+const VotingUpdateVotingRoom = ({
   user,
+  votingRoom,
   setIsOpen,
   open,
 }: {
   user: User
+  votingRoom: VotingRoom
   setIsOpen: (open: boolean) => void
   open: boolean
 }) => {
-  const [date, setDate] = useState<Date>()
+  const [date, setDate] = useState<Date>(votingRoom.deadline)
   const [isLoading, setIsLoading] = useState(false)
-  const form = useForm<z.infer<typeof votingCreateVotingRoomSchema>>({
-    resolver: zodResolver(votingCreateVotingRoomSchema),
+  const form = useForm<z.infer<typeof votingUpdateVotingRoomSchema>>({
+    resolver: zodResolver(votingUpdateVotingRoomSchema),
     defaultValues: {
-      deadline: new Date(),
-      name: "",
-      description: "",
+      deadline: new Date(votingRoom.deadline),
+      name: votingRoom.name,
+      description: votingRoom.description,
     },
   })
   async function onSubmit(
-    values: z.infer<typeof votingCreateVotingRoomSchema>
+    values: z.infer<typeof votingUpdateVotingRoomSchema>
   ) {
     setIsLoading(true)
 
-    const response = await createVotingRoom(
+    const response = await updateVotingRoom(
       user,
-      generateUniqueCode(),
-      values.description,
+      votingRoom,
       values.name,
-      date!
+      values.description,
+      values.deadline
     )
-
-    if (response.status === 201) {
+    if (response.status === 200) {
       toast({
-        title: "Voting room created successfully",
+        title: "Updated voting room",
         description: response.message,
       })
     } else {
@@ -144,7 +145,7 @@ const VotingCreateVotingRoomForm = ({
                       {...field}
                       mode="single"
                       selected={date}
-                      onSelect={setDate}
+                      onSelect={setDate as any}
                       initialFocus
                       disabled={isLoading}
                     />
@@ -157,11 +158,11 @@ const VotingCreateVotingRoomForm = ({
           )}
         />
         <Button type="submit" className="w-full" disabled={isLoading}>
-          Submit
+          Update
         </Button>
       </form>
     </Form>
   )
 }
 
-export default VotingCreateVotingRoomForm
+export default VotingUpdateVotingRoom

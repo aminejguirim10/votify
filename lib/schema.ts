@@ -30,3 +30,11 @@ export const votingCreateVotingRoomSchema = z.object({
     .min(10, { message: "Description must be at least 10 characters" }),
   deadline: z.date({ required_error: "Deadline is required" }),
 })
+
+export const votingUpdateVotingRoomSchema = z.object({
+  name: z.string().min(5, { message: "Name must be at least 5 characters" }),
+  description: z
+    .string()
+    .min(10, { message: "Description must be at least 10 characters" }),
+  deadline: z.date({ required_error: "Deadline is required" }),
+})

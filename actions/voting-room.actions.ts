@@ -17,10 +17,8 @@ export async function getVotingRooms(userId: string) {
             creatorId: userId,
           },
           {
-            voters: {
-              some: {
-                id: userId,
-              },
+            votersIds: {
+              has: userId,
             },
           },
         ],
@@ -86,18 +84,28 @@ export const joinVotingRoom = async (votingRoomCode: string, user: User) => {
         voters: true,
       },
     })
+
     if (!votingRoom) {
       return {
         status: 404,
         message: "Voting room not found",
       }
     }
+
     if (votingRoom.deadline < new Date()) {
       return {
         status: 403,
         message: "Voting room is closed",
       }
     }
+
+    if (votingRoom.creatorId === user.id) {
+      return {
+        status: 403,
+        message: "You are the creator of the voting room",
+      }
+    }
+
     if (votingRoom.voters.some((voter) => voter.id === user.id)) {
       return {
         status: 400,
@@ -114,8 +122,12 @@ export const joinVotingRoom = async (votingRoomCode: string, user: User) => {
             id: user.id,
           },
         },
+        votersIds: {
+          push: user.id,
+        },
       },
     })
+    revalidatePath("/votingRooms")
     return {
       status: 200,
       message: "Successfully joined the voting room",

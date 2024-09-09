@@ -1,4 +1,14 @@
-import { User, LogOut, CirclePlus, CornerUpLeft } from "lucide-react"
+import {
+  User,
+  LogOut,
+  CirclePlus,
+  CornerUpLeft,
+  Tally1,
+  Ellipsis,
+  Trash2,
+  Copy,
+  Pencil,
+} from "lucide-react"
 
 import { FaEyeSlash } from "react-icons/fa6"
 import { FaEye, FaGithub } from "react-icons/fa"
@@ -15,4 +25,9 @@ export const Icons = {
   votingRoom: GiVote,
   create: CirclePlus,
   join: CornerUpLeft,
+  bar: Tally1,
+  more: Ellipsis,
+  delete: Trash2,
+  copy: Copy,
+  update: Pencil,
 }

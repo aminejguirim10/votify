@@ -9,6 +9,7 @@ import VotingProfileOptions from "@/components/layout/voting-profile-options"
 import { Icons } from "@/components/shared/icons"
 import VotingRoomsOptions from "@/components/layout/voting-rooms-options"
 import { getVotingRooms } from "@/actions/voting-room.actions"
+import { VotingRoomFetched } from "@/types"
 
 export default async function VotingLayout({
   children,
@@ -16,7 +17,9 @@ export default async function VotingLayout({
   children: React.ReactNode
 }>) {
   const session = await ServerSession()
-  const votingRooms = (await getVotingRooms(session?.user.id!)) as any[]
+  const votingRooms = (await getVotingRooms(
+    session?.user.id!
+  )) as VotingRoomFetched[]
 
   return (
     <main className="flex h-screen">
