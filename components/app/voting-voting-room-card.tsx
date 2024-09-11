@@ -4,8 +4,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { VotingRoomFetched } from "@/types"
-import { User } from "@prisma/client"
+import { User, VotingRoom } from "@prisma/client"
 import { Badge } from "@/components/ui/badge"
 import { Icons } from "@/components/shared/icons"
 
@@ -26,7 +25,7 @@ const VotingVotingRoomCard = ({
   votingRoom,
   user,
 }: {
-  votingRoom: VotingRoomFetched
+  votingRoom: VotingRoom
   user: User
 }) => {
   return (

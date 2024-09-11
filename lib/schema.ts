@@ -38,3 +38,8 @@ export const votingUpdateVotingRoomSchema = z.object({
     .min(10, { message: "Description must be at least 10 characters" }),
   deadline: z.date({ required_error: "Deadline is required" }),
 })
+
+export const votingCreateVoteSchema = z.object({
+  vote: z.string().min(1, { message: "Vote must be at least 3 characters" }),
+  url: z.string().optional(),
+})

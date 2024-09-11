@@ -23,9 +23,6 @@ export async function getVotingRooms(userId: string) {
           },
         ],
       },
-      include: {
-        votes: true,
-      },
     })
     return votingRooms
   } catch (error: any) {
