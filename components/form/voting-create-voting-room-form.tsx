@@ -28,7 +28,7 @@ import {
 import { votingCreateVotingRoomSchema } from "@/lib/schema"
 import { User } from "@prisma/client"
 import { createVotingRoom } from "@/actions/voting-room.actions"
-import { toast } from "@/hooks/use-toast"
+import { toast } from "sonner"
 import { Textarea } from "@/components/ui/textarea"
 
 const VotingCreateVotingRoomForm = ({
@@ -64,15 +64,28 @@ const VotingCreateVotingRoomForm = ({
     )
 
     if (response.status === 201) {
-      toast({
-        title: "Voting room created successfully",
-        description: response.message,
+      toast("Voting room created successfully", {
+        style: {
+          background: "#ebebe9",
+          color: "#307491",
+          fontWeight: "bold",
+        },
+        description: (
+          <span className="text-sm text-muted-foreground">
+            {response.message}
+          </span>
+        ),
       })
     } else {
-      toast({
-        title: "Error creating voting room",
-        description: response.message,
-        variant: "destructive",
+      toast("Error creating voting room", {
+        style: {
+          background: "#af0808",
+          color: "black",
+          fontWeight: "bold",
+        },
+        description: (
+          <span className="text-sm text-black/80">{response.message}</span>
+        ),
       })
     }
     setIsOpen(false)

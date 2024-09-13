@@ -17,7 +17,7 @@ import { MovingBorderSection } from "@/components/ui/moving-border"
 import { useState } from "react"
 import { joinVotingRoom } from "@/actions/voting-room.actions"
 import { User } from "@prisma/client"
-import { toast } from "@/hooks/use-toast"
+import { toast } from "sonner"
 
 const VotingJoinVotingRoomForm = ({ user }: { user: User }) => {
   const [isLoading, setIsLoading] = useState(false)
@@ -32,16 +32,28 @@ const VotingJoinVotingRoomForm = ({ user }: { user: User }) => {
     setIsLoading(true)
     const response = await joinVotingRoom(values.votingRoomCode, user)
     if (response.status === 200) {
-      toast({
-        title: "Joined Voting Room",
-        description: response.message,
-        variant: "default",
+      toast("Joined Voting Room", {
+        style: {
+          background: "#ebebe9",
+          color: "#307491",
+          fontWeight: "bold",
+        },
+        description: (
+          <span className="text-sm text-muted-foreground">
+            {response.message}
+          </span>
+        ),
       })
     } else {
-      toast({
-        title: "Error Joining Voting Room",
-        description: response.message,
-        variant: "destructive",
+      toast("Error Joining Voting Room", {
+        style: {
+          background: "#af0808",
+          color: "black",
+          fontWeight: "bold",
+        },
+        description: (
+          <span className="text-sm text-black/80">{response.message}</span>
+        ),
       })
     }
     setIsLoading(false)

@@ -29,10 +29,12 @@ const VotingRoomPage = async ({
         <CountDown title="Deadline" deadline={votingRoom?.deadline!} />
         {/*TODO: Improve the ui for create vote  */}
         {session?.user.id === votingRoom?.creatorId && (
-          <VotingCreateVote
-            user={session.user as any}
-            votingRoom={votingRoom}
-          />
+          <div>
+            <VotingCreateVote
+              user={session.user as any}
+              votingRoom={votingRoom}
+            />
+          </div>
         )}
       </div>
     </div>
