@@ -40,6 +40,11 @@ export const votingUpdateVotingRoomSchema = z.object({
 })
 
 export const votingCreateVoteSchema = z.object({
-  vote: z.string().min(1, { message: "Vote must be at least 3 characters" }),
+  vote: z.string().min(3, { message: "Vote must be at least 3 characters" }),
+  url: z.string().optional(),
+})
+
+export const votingUpdateVoteSchema = z.object({
+  vote: z.string().min(3, { message: "Vote must be at least 3 characters" }),
   url: z.string().optional(),
 })

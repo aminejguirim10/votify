@@ -31,7 +31,7 @@ import { updateVotingRoom } from "@/actions/voting-room.actions"
 import { toast } from "sonner"
 import { Textarea } from "@/components/ui/textarea"
 
-const VotingUpdateVotingRoom = ({
+const VotingUpdateVotingRoomForm = ({
   user,
   votingRoom,
   setIsOpen,
@@ -178,4 +178,4 @@ const VotingUpdateVotingRoom = ({
   )
 }
 
-export default VotingUpdateVotingRoom
+export default VotingUpdateVotingRoomForm

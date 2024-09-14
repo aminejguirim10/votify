@@ -10,16 +10,18 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { User, VotingRoom } from "@prisma/client"
+import { User, VotingRoom, Vote } from "@prisma/client"
 import VotingUpdateVotingRoomForm from "@/components/form/voting-update-voting-room-form"
 import { useState } from "react"
-
-const VotingVotingRoomUpdateButton = ({
+import VotingUpdateVoteForm from "../form/voting-update-vote-form"
+const VotingVoteUpdateButton = ({
   user,
   votingRoom,
+  vote,
 }: {
   user: User
   votingRoom: VotingRoom
+  vote: Vote
 }) => {
   const [isOpen, setIsOpen] = useState(false)
   return (
@@ -30,25 +32,24 @@ const VotingVotingRoomUpdateButton = ({
           variant="outline"
         >
           <Icons.update className="size-4" />
-          <span>Update voting room</span>
+          <span>Update Vote</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="bg-white">
         <DialogHeader>
-          <DialogTitle className="text-primary">Update Voting Room</DialogTitle>
-          <DialogDescription>
-            Update the voting room name, description, and deadline.
-          </DialogDescription>
+          <DialogTitle className="text-primary">Update Vote</DialogTitle>
+          <DialogDescription>Update the vote name and image.</DialogDescription>
         </DialogHeader>
-        <VotingUpdateVotingRoomForm
-          user={user}
-          votingRoom={votingRoom}
+        <VotingUpdateVoteForm
           open={isOpen}
           setIsOpen={setIsOpen}
+          user={user}
+          vote={vote}
+          votingRoom={votingRoom}
         />
       </DialogContent>
     </Dialog>
   )
 }
 
-export default VotingVotingRoomUpdateButton
+export default VotingVoteUpdateButton

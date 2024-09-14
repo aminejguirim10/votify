@@ -16,24 +16,33 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
+
 import { Input } from "@/components/ui/input"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
 import { useCallback, useEffect, useState } from "react"
-import { User, VotingRoom } from "@prisma/client"
-import { votingCreateVoteSchema } from "@/lib/schema"
 import { useRouter } from "next/navigation"
+import { votingUpdateVoteSchema } from "@/lib/schema"
 import { toast } from "sonner"
-import { Icons } from "@/components/shared/icons"
-import { createVote } from "@/actions/vote.actions"
-const VotingCreateVoteForm = ({
+import { User, Vote, VotingRoom } from "@prisma/client"
+import { updateVote } from "@/actions/vote.actions"
+import Image from "next/image"
+
+const VotingUpdateVoteForm = ({
   user,
-  setOpen,
-  open,
   votingRoom,
+  setIsOpen,
+  open,
+  vote,
 }: {
-  setOpen: (open: boolean) => void
-  open: boolean
   user: User
   votingRoom: VotingRoom
+  vote: Vote
+  setIsOpen: (open: boolean) => void
+  open: boolean
 }) => {
   const [loading, setLoading] = useState(false)
   const [files, setFiles] = useState<File[]>([])
@@ -47,11 +56,11 @@ const VotingCreateVoteForm = ({
     const previewUrl = URL.createObjectURL(file)
     setPreview(previewUrl)
   }, [])
-  const form = useForm<z.infer<typeof votingCreateVoteSchema>>({
-    resolver: zodResolver(votingCreateVoteSchema),
+  const form = useForm<z.infer<typeof votingUpdateVoteSchema>>({
+    resolver: zodResolver(votingUpdateVoteSchema),
     defaultValues: {
-      vote: "",
-      url: "",
+      vote: vote.vote,
+      url: vote.url,
     },
   })
   const { startUpload, permittedFileInfo } = useUploadThing("imageUploader", {
@@ -77,22 +86,24 @@ const VotingCreateVoteForm = ({
     },
     onUploadBegin: () => {},
   })
+
   useEffect(() => {
     if (urlsUpdated) {
-      const CreateVote = async () => {
-        const response = await createVote(
+      const UpdateVote = async () => {
+        const response = await updateVote(
+          vote.id,
           votingRoom.id,
           user.id,
           form.getValues().vote,
-          urls[0] || ""
+          urls[0]
         )
-        if (response.status === 201) {
+        if (response.status === 200) {
           setFiles([])
           setUrls([])
           setPreview("")
           setLoading(false)
-          setOpen(false)
-          toast("Vote Created", {
+          setIsOpen(false)
+          toast("Vote Updated", {
             style: {
               background: "#ebebe9",
               color: "#307491",
@@ -100,7 +111,7 @@ const VotingCreateVoteForm = ({
             },
             description: (
               <span className="text-sm text-muted-foreground">
-                You have successfully created a vote
+                You have successfully updated the vote
               </span>
             ),
           })
@@ -114,18 +125,17 @@ const VotingCreateVoteForm = ({
               fontWeight: "bold",
             },
             description: (
-              <span className="text-sm text-black/80">
-                There was an error creating the vote
+              <span className="text-sm text-muted-foreground">
+                You have successfully updated the vote
               </span>
             ),
           })
         }
         setUrlsUpdated(false)
       }
-      CreateVote()
+      UpdateVote()
     }
   }, [urlsUpdated, urls])
-
   const fileTypes = permittedFileInfo?.config
     ? Object.keys(permittedFileInfo?.config)
     : []
@@ -140,24 +150,25 @@ const VotingCreateVoteForm = ({
     }
   }
 
-  async function onSubmit(values: z.infer<typeof votingCreateVoteSchema>) {
+  async function onSubmit(values: z.infer<typeof votingUpdateVoteSchema>) {
     setLoading(true)
     if (preview) {
       startUpload(files)
     } else {
-      const response = await createVote(
+      const response = await updateVote(
+        vote.id,
         votingRoom.id,
         user.id,
         values.vote,
-        urls[0] || ""
+        urls[0]
       )
-      if (response.status === 201) {
+      if (response.status === 200) {
         setFiles([])
         setUrls([])
         setPreview("")
         setLoading(false)
-        setOpen(false)
-        toast("Vote Created", {
+        setIsOpen(false)
+        toast("Vote Updated", {
           style: {
             background: "#ebebe9",
             color: "#307491",
@@ -165,7 +176,7 @@ const VotingCreateVoteForm = ({
           },
           description: (
             <span className="text-sm text-muted-foreground">
-              You have successfully created a vote
+              You have successfully updated the vote
             </span>
           ),
         })
@@ -180,14 +191,13 @@ const VotingCreateVoteForm = ({
           },
           description: (
             <span className="text-sm text-black/80">
-              There was an error creating the vote
+              There was an error while updating the vote
             </span>
           ),
         })
       }
     }
   }
-
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -215,57 +225,38 @@ const VotingCreateVoteForm = ({
           render={({ field }) => (
             <FormItem>
               <FormLabel className="font-bold">Vote Image</FormLabel>
-              <div
-                {...getRootProps()}
-                className={`cursor-pointer rounded-lg py-2 outline-dashed outline-2 outline-gray-400 md:py-4 ${
-                  loading ? "cursor-not-allowed opacity-50" : ""
-                }`}
-              >
-                <input
-                  {...getInputProps()}
-                  disabled={loading}
-                  multiple={false}
-                />
-                <div className="flex flex-col items-center gap-3">
-                  <div className="flex flex-col gap-1 text-center text-muted-foreground max-md:text-sm">
-                    <span>
-                      Drag and drop your image here, or click to select a file.
-                    </span>
-                    <span className="text-sm text-blue-400 max-md:text-xs">
-                      The photo must be less than 4 MB.
-                    </span>
-                  </div>
-                </div>
-              </div>
             </FormItem>
           )}
         />
-        <div className="mt-4 grid grid-cols-1">
-          {files.map((file, index) => (
-            <div
-              key={index}
-              className={`flex items-center justify-between rounded-lg border-2 border-gray-200 p-2 ${
-                loading ? "cursor-not-allowed opacity-50" : ""
-              }`}
-            >
-              <span className="max-w-xs truncate">{file.name}</span>
-              <div className="transition-colors hover:rounded-md hover:bg-red-200">
-                <Icons.delete
-                  onClick={() => removeFile(file)}
-                  className={`size-6 cursor-pointer rounded-full p-1 text-red-500 ${
-                    loading ? "cursor-not-allowed" : ""
-                  }`}
-                />
-              </div>
+        <div
+          {...getRootProps()}
+          className={`cursor-pointer rounded-lg py-2 outline-dashed outline-2 outline-gray-400 md:py-4 ${
+            loading ? "cursor-not-allowed opacity-50" : ""
+          }`}
+        >
+          <input {...getInputProps()} disabled={loading} multiple={false} />
+          <div className="flex flex-col items-center gap-3">
+            <div className="flex flex-col gap-1 text-center text-muted-foreground max-md:text-sm">
+              <Image
+                src={
+                  preview ||
+                  vote.url ||
+                  "https://placehold.co/664x410?text=Votify"
+                }
+                alt="Vote Image"
+                width={800}
+                height={800}
+                className="h-[300px] w-[300px] rounded-lg"
+              />
             </div>
-          ))}
+          </div>
         </div>
         <Button type="submit" className="w-full" disabled={loading}>
-          Submit
+          Update
         </Button>
       </form>
     </Form>
   )
 }
 
-export default VotingCreateVoteForm
+export default VotingUpdateVoteForm

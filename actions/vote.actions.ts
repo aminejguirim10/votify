@@ -2,6 +2,7 @@
 
 import prisma from "@/lib/db"
 import { ServerSession } from "@/lib/session"
+import { revalidatePath } from "next/cache"
 
 export async function createVote(
   votingRoomId: string,
@@ -67,7 +68,7 @@ export async function updateVote(
         vote,
       },
     })
-
+    revalidatePath(`/votingRooms/${votingRoomId}`)
     return { status: 200, message: "Vote updated successfully" }
   } catch (error: any) {
     return { status: 500, message: error.message }
@@ -98,7 +99,7 @@ export async function deleteVote(
         id: voteId,
       },
     })
-
+    revalidatePath(`/votingRooms/${votingRoomId}`)
     return { status: 200, message: "Vote deleted successfully" }
   } catch (error: any) {
     return { status: 500, message: error.message }
