@@ -8,6 +8,7 @@ import {
   Trash2,
   Copy,
   Pencil,
+  PanelRightOpen,
 } from "lucide-react"
 
 import { FaEyeSlash } from "react-icons/fa6"
@@ -30,4 +31,5 @@ export const Icons = {
   delete: Trash2,
   copy: Copy,
   update: Pencil,
+  sidePanel: PanelRightOpen,
 }

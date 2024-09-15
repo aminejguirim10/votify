@@ -66,7 +66,7 @@ const VotingJoinVotingRoomForm = ({ user }: { user: User }) => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex items-center gap-2 py-2"
         >
-          <MovingBorderSection className="flex items-center gap-2 px-4">
+          <div className="flex items-center gap-2 rounded-2xl border border-black/15 px-3 py-1.5">
             <FormField
               control={form.control}
               name="votingRoomCode"
@@ -93,7 +93,7 @@ const VotingJoinVotingRoomForm = ({ user }: { user: User }) => {
             >
               <Icons.join className="size-4 text-gray-200" />
             </Button>
-          </MovingBorderSection>
+          </div>
         </form>
       </Form>
     </div>

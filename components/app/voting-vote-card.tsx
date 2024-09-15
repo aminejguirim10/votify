@@ -28,8 +28,8 @@ const VotingVoteCard = ({
         <Image
           src={vote.url ? vote.url : "https://placehold.co/664x410?text=Votify"}
           alt={vote.vote}
-          width={300}
-          height={300}
+          width={800}
+          height={800}
           className="h-[300px] w-full rounded-t-xl"
         />
       </div>
