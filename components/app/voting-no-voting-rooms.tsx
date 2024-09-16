@@ -1,9 +1,8 @@
 import { Icons } from "@/components/shared/icons"
 
-import VotingCreateVotingRoom from "../layout/voting-create-voting-room"
+import VotingCreateVotingRoom from "@/components/layout/voting-create-voting-room"
 import { User } from "@prisma/client"
-import VotingJoinVotingRoom from "../layout/voting-join-voting-room"
-import VotingJoinVotingRoomForm from "../form/voting-join-voting-room-form"
+import VotingJoinVotingRoomForm from "@/components/form/voting-join-voting-room-form"
 const VotingNoVotingRooms = ({ user }: { user: User }) => {
   return (
     <div className="flex min-h-[86vh] flex-col items-center justify-center rounded-lg outline-dashed outline-2 outline-teal-600">

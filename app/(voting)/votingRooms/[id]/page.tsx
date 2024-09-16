@@ -1,4 +1,5 @@
 import VotingCreateVote from "@/components/app/voting-create-vote"
+import VotingNoVotes from "@/components/app/voting-no-votes"
 import VotingVoteCard from "@/components/app/voting-vote-card"
 import CountDown from "@/components/ui/countdown"
 import prisma from "@/lib/db"
@@ -34,13 +35,18 @@ const VotingRoomPage = async ({
         {/*TODO: Improve the ui for CountDown  */}
         <CountDown title="Deadline" deadline={votingRoom?.deadline!} />
         {/*TODO: Improve the ui for create vote  */}
-        {session?.user.id === votingRoom?.creatorId && (
-          <div className="mt-4">
-            <VotingCreateVote
-              user={session.user as any}
-              votingRoom={votingRoom}
-            />
-          </div>
+        {votingRoom?.votes &&
+          votingRoom?.votes?.length > 0 &&
+          session?.user.id === votingRoom?.creatorId && (
+            <div className="mt-4">
+              <VotingCreateVote
+                user={session.user as any}
+                votingRoom={votingRoom}
+              />
+            </div>
+          )}
+        {votingRoom?.votes.length === 0 && (
+          <VotingNoVotes user={session.user as User} votingRoom={votingRoom} />
         )}
         {votingRoom?.votes && votingRoom?.votes.length > 0 && (
           <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">

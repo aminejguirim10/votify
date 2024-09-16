@@ -14,18 +14,21 @@ import {
 import VotingCreateVoteForm from "@/components/form/voting-create-vote-form"
 import { User, VotingRoom } from "@prisma/client"
 import { useState } from "react"
+import { cn } from "@/lib/utils"
 const VotingCreateVote = ({
   user,
   votingRoom,
+  className,
 }: {
   user: User
   votingRoom: VotingRoom
+  className?: string
 }) => {
   const [open, setOpen] = useState(false)
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
-        <Card className="w-fit lg:w-[300px]">
+        <Card className={cn("w-fit lg:w-[300px]", className)}>
           <CardHeader>
             <div className="flex items-center gap-4">
               <Icons.create className="size-6 text-[#335766]" />
