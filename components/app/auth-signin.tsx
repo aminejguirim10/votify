@@ -18,18 +18,20 @@ const AuthSignIn = () => {
         <div>
           <Card className="h-full shadow-2xl">
             <CardHeader className="flex flex-col gap-2">
-              <div className="flex items-center gap-1">
-                <Image
-                  src={"/assets/logo.png"}
-                  width={215}
-                  height={187}
-                  className="size-8 md:size-10"
-                  alt="logo"
-                />
-                <CardTitle className="text-xl font-bold text-primary/90 md:text-2xl">
-                  Votify
-                </CardTitle>
-              </div>
+              <Link href={"/"} className="w-fit">
+                <div className="flex items-center gap-1">
+                  <Image
+                    src={"/assets/logo.png"}
+                    width={215}
+                    height={187}
+                    className="size-8 md:size-10"
+                    alt="logo"
+                  />
+                  <CardTitle className="text-xl font-bold text-primary/90 md:text-2xl">
+                    Votify
+                  </CardTitle>
+                </div>
+              </Link>
               <div className="flex flex-col gap-1">
                 <h2 className="text-2xl font-bold md:text-3xl">Welcome back</h2>
                 <CardDescription>

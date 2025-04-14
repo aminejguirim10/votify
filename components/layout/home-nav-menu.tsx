@@ -19,7 +19,7 @@ export const HomeNavMenu = ({ className, ...props }: NavigationMenuProps) => (
           asChild
           className="rounded-md px-4 py-2 transition-all duration-300 hover:bg-gray-200"
         >
-          <Link href="#about">About</Link>
+          <Link href="/#about">About</Link>
         </NavigationMenuLink>
       </NavigationMenuItem>
       <NavigationMenuItem>
@@ -27,7 +27,7 @@ export const HomeNavMenu = ({ className, ...props }: NavigationMenuProps) => (
           asChild
           className="rounded-md px-4 py-2 transition-all duration-300 hover:bg-gray-200"
         >
-          <Link href="#services">Services</Link>
+          <Link href="/#services">Services</Link>
         </NavigationMenuLink>
       </NavigationMenuItem>
       <NavigationMenuItem>
