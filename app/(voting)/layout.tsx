@@ -11,14 +11,10 @@ import VotingRoomsOptions from "@/components/layout/voting-rooms-options"
 import { getVotingRooms } from "@/actions/voting-room.actions"
 import { VotingRoomFetched } from "@/types"
 
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { redirect } from "next/navigation"
+import { getUser } from "@/actions/user.actions"
+import { User } from "@prisma/client"
 
 export default async function VotingLayout({
   children,
@@ -26,6 +22,12 @@ export default async function VotingLayout({
   children: React.ReactNode
 }>) {
   const session = await ServerSession()
+  if (!session) {
+    redirect("/signin")
+  }
+
+  const user = (await getUser()) as User
+
   const votingRooms = (await getVotingRooms(
     session?.user.id!
   )) as VotingRoomFetched[]
@@ -88,10 +90,8 @@ export default async function VotingLayout({
                 </div>
                 <Separator className="my-2 bg-black/20" />
                 <VotingProfileOptions
-                  image={session?.user?.image || ""}
-                  name={
-                    session?.user?.name || emailToName(session?.user?.email!)
-                  }
+                  image={user.image || ""}
+                  name={user.name || emailToName(user.email!)}
                 />
               </div>
             </div>
@@ -144,8 +144,8 @@ export default async function VotingLayout({
             </div>
             <Separator className="my-2 bg-black/20" />
             <VotingProfileOptions
-              image={session?.user?.image || ""}
-              name={session?.user?.name || emailToName(session?.user?.email!)}
+              image={user.image || ""}
+              name={user.name || emailToName(user.email!)}
             />
           </div>
         </div>

@@ -130,11 +130,16 @@ export async function makeVote(voteId: string, userId: string) {
       where: {
         id: voteId,
       },
+      include: {
+        users: true,
+      },
     })
-
     if (!vote) return { status: 404, message: "Vote not found" }
+    if (vote?.users.some((user) => user.id === userId)) {
+      return { status: 409, message: "You have already voted for this vote" }
+    }
 
-    await prisma.vote.update({
+    const voteUpdated = await prisma.vote.update({
       where: {
         id: voteId,
       },
@@ -148,6 +153,7 @@ export async function makeVote(voteId: string, userId: string) {
       },
     })
 
+    revalidatePath(`/votingRooms/${vote.votingRoomId}`)
     return { status: 200, message: "Vote made successfully" }
   } catch (error: any) {
     return { status: 500, message: error.message }

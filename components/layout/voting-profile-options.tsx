@@ -28,7 +28,7 @@ const VotingProfileOptions = ({
         </div>
       </PopoverTrigger>
       <PopoverContent className="mb-2 ml-4 w-fit">
-        <VotingProfileOptionsButtons />
+        <VotingProfileOptionsButtons name={name} image={image} />
       </PopoverContent>
     </Popover>
   )

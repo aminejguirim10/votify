@@ -62,7 +62,7 @@ const VotingUpdateVotingRoomForm = ({
       votingRoom,
       values.name,
       values.description,
-      values.deadline
+      date
     )
     if (response.status === 200) {
       toast("Updated voting room", {

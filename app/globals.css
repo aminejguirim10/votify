@@ -48,6 +48,10 @@ body {
     --destructive-foreground: 0 91% 96%;
     --ring: 198 100% 45%;
     --radius: 0.5rem;
+    --color-zinc-950: #2282dc;
+    --color-white: #ffffff;
+    --color-background: #ffffff;
+    --color-border: color-mix(in oklab, var(--color-zinc-950) 10%, transparent);
   }
 
   .dark {

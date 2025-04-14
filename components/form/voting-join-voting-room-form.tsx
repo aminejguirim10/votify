@@ -4,16 +4,9 @@ import { votingJoinVotingRoomSchema } from "@/lib/schema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/form"
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Icons } from "@/components/shared/icons"
-import { MovingBorderSection } from "@/components/ui/moving-border"
 import { useState } from "react"
 import { joinVotingRoom } from "@/actions/voting-room.actions"
 import { User } from "@prisma/client"
@@ -28,6 +21,7 @@ const VotingJoinVotingRoomForm = ({ user }: { user: User }) => {
     },
   })
 
+  const votingRoomCode = form.watch("votingRoomCode")
   async function onSubmit(values: z.infer<typeof votingJoinVotingRoomSchema>) {
     setIsLoading(true)
     const response = await joinVotingRoom(values.votingRoomCode, user)
@@ -80,7 +74,6 @@ const VotingJoinVotingRoomForm = ({ user }: { user: User }) => {
                       disabled={isLoading}
                     />
                   </FormControl>
-                  {/* TODO: Add the error message */}
                 </FormItem>
               )}
             />
@@ -89,7 +82,7 @@ const VotingJoinVotingRoomForm = ({ user }: { user: User }) => {
               type="submit"
               size="icon"
               className="size-8"
-              disabled={isLoading}
+              disabled={isLoading || votingRoomCode.length !== 6}
             >
               <Icons.join className="size-4 text-gray-200" />
             </Button>

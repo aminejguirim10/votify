@@ -169,7 +169,7 @@ const VotingCreateVotingRoomForm = ({
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full" disabled={isLoading}>
+        <Button type="submit" className="w-full" disabled={isLoading || !date}>
           Submit
         </Button>
       </form>

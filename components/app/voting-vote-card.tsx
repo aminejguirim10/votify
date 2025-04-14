@@ -9,7 +9,6 @@ import {
 import { Button } from "@/components/ui/button"
 import { Icons } from "@/components/shared/icons"
 import { Separator } from "@/components/ui/separator"
-import VotingVotingRoomUpdateButton from "./voting-voting-room-update-button"
 import VotingVoteDeleteButton from "@/components/app/voting-vote-delete-button"
 import VotingVoteUpdateButton from "./voting-vote-update-button"
 
@@ -28,8 +27,8 @@ const VotingVoteCard = ({
         <Image
           src={vote.url ? vote.url : "https://placehold.co/664x410?text=Votify"}
           alt={vote.vote}
-          width={800}
-          height={800}
+          width={1500}
+          height={1500}
           className="h-[300px] w-full rounded-t-xl"
         />
       </div>

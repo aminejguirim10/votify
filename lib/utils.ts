@@ -48,3 +48,22 @@ export function generateUniqueCode(length = 6) {
     .replace(/[^a-zA-Z0-9]/g, "") // Remove non-alphanumeric characters
     .slice(0, length) // Get the desired length
 }
+
+export function getVotesWithMostUsers(
+  votingRoom: any
+): { voteName: string; userCount: number }[] {
+  if (!votingRoom?.votes || votingRoom.votes.length === 0) {
+    return []
+  }
+
+  const maxUserCount = Math.max(
+    ...votingRoom.votes.map((vote: any) => vote.users.length)
+  )
+
+  return votingRoom.votes
+    .filter((vote: any) => vote.users.length === maxUserCount)
+    .map((vote: any) => ({
+      voteName: vote.vote,
+      userCount: vote.users.length,
+    }))
+}

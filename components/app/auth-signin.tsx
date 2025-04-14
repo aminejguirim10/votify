@@ -36,7 +36,7 @@ const AuthSignIn = () => {
                   Start your website in seconds. Don’t have an account?{" "}
                   <Link
                     href={"/signup"}
-                    className="font-semibold text-blue-600 hover:underline"
+                    className="font-semibold text-primary/90 hover:underline"
                   >
                     Sign up.
                   </Link>
@@ -49,7 +49,7 @@ const AuthSignIn = () => {
             <CardFooter className="flex justify-end text-sm font-semibold">
               <Link
                 href={"/forgot-password"}
-                className="text-blue-700 hover:underline"
+                className="text-primary/90 hover:underline"
               >
                 Forgot Password?
               </Link>

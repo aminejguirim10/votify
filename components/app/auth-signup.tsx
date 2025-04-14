@@ -36,7 +36,7 @@ const AuthSignUp = () => {
                   Start your website in seconds. Already have an account?{" "}
                   <Link
                     href={"/signin"}
-                    className="font-semibold text-blue-600 hover:underline"
+                    className="font-semibold text-primary/90 hover:underline"
                   >
                     Login here.
                   </Link>

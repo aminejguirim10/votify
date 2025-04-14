@@ -4,7 +4,6 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -13,6 +12,7 @@ import { Icons } from "@/components/shared/icons"
 import VotingCreateVotingRoomForm from "@/components/form/voting-create-voting-room-form"
 import { User } from "@prisma/client"
 import { useState } from "react"
+import { Info } from "lucide-react"
 
 const VotingCreateVotingRoom = ({ user }: { user: User }) => {
   const [isOpen, setIsOpen] = useState(false)
@@ -27,8 +27,12 @@ const VotingCreateVotingRoom = ({ user }: { user: User }) => {
       <DialogContent className="bg-white sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle className="text-primary">Create Voting Room</DialogTitle>
-          <DialogDescription>
-            Create a new voting room to start voting.
+          <DialogDescription className="flex flex-col gap-1 text-sm text-muted-foreground">
+            <p>Create a new voting room to start voting.</p>
+            <span className="flex items-center gap-1">
+              <Info className="size-4 text-orange-400" />
+              Please fill all the fields and select a date for the deadline.
+            </span>
           </DialogDescription>
         </DialogHeader>
         <VotingCreateVotingRoomForm

@@ -9,6 +9,10 @@ import {
   Copy,
   Pencil,
   PanelRightOpen,
+  ChevronRightIcon,
+  Vote,
+  Boxes,
+  Bell,
 } from "lucide-react"
 
 import { FaEyeSlash } from "react-icons/fa6"
@@ -32,4 +36,8 @@ export const Icons = {
   copy: Copy,
   update: Pencil,
   sidePanel: PanelRightOpen,
+  arrowRight: ChevronRightIcon,
+  vote: Vote,
+  box: Boxes,
+  bell: Bell,
 }

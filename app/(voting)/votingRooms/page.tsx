@@ -4,6 +4,14 @@ import VotingVotingRoomCard from "@/components/app/voting-voting-room-card"
 import { ServerSession } from "@/lib/session"
 import { User, VotingRoom } from "@prisma/client"
 
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Voting Rooms",
+  description:
+    "Voting rooms for you to join and vote for your favorite options.",
+}
+
 const VotingRoomsPage = async () => {
   const session = await ServerSession()
   const votingRooms = (await getVotingRooms(session?.user.id!)) as VotingRoom[]

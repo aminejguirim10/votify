@@ -11,9 +11,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { User, VotingRoom, Vote } from "@prisma/client"
-import VotingUpdateVotingRoomForm from "@/components/form/voting-update-voting-room-form"
 import { useState } from "react"
-import VotingUpdateVoteForm from "../form/voting-update-vote-form"
+import VotingUpdateVoteForm from "@/components/form/voting-update-vote-form"
 const VotingVoteUpdateButton = ({
   user,
   votingRoom,

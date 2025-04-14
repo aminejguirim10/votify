@@ -1,7 +1,14 @@
+import HomeNavbar from "@/components/layout/home-navbar"
+
 export default function HomeLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  return <main>{children}</main>
+  return (
+    <main>
+      <HomeNavbar />
+      {children}
+    </main>
+  )
 }
