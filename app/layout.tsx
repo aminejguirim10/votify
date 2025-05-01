@@ -3,6 +3,7 @@ import localFont from "next/font/local"
 import "./globals.css"
 import { Toaster } from "@/components/ui/toaster"
 import { Toaster as SonnerToaster } from "@/components/ui/sonner"
+import VercelAnalytics from "@/components/layout/vercel-analytics"
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -54,6 +55,7 @@ export default function RootLayout({
         {children}
         <Toaster />
         <SonnerToaster />
+        <VercelAnalytics />
       </body>
     </html>
   )
