@@ -44,7 +44,7 @@ const ForgotPasswordPage = () => {
           <p className="text-center text-sm text-accent-foreground">
             Remembered your password?
             <Button asChild variant="link" className="px-2">
-              <Link href="/siginin">Log in</Link>
+              <Link href="/signin">Log in</Link>
             </Button>
           </p>
         </div>
